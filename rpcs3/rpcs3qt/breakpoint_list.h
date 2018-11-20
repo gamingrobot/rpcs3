@@ -1,8 +1,14 @@
-#pragma once
+﻿#pragma once
 
 #include "util/types.hpp"
 
 #include <QListWidget>
+#include <QDialog>
+#include <QVBoxLayout>
+#include <QLineEdit>
+#include <QLabel>
+#include <QComboBox>
+#include <QPushButton>
 
 class CPUDisAsm;
 class cpu_thread;
@@ -16,8 +22,9 @@ public:
 	breakpoint_list(QWidget* parent, breakpoint_handler* handler);
 	void UpdateCPUData(cpu_thread* cpu, CPUDisAsm* disasm);
 	void ClearBreakpoints();
-	void AddBreakpoint(u32 pc);
+	void AddBreakpoint(u32 pc, bs_t<breakpoint_type> type);
 	void RemoveBreakpoint(u32 addr);
+	void ShowAddBreakpointWindow();
 
 	QColor m_text_color_bp;
 	QColor m_color_bp;
