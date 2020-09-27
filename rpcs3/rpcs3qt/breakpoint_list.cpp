@@ -67,7 +67,7 @@ void breakpoint_list::AddBreakpoint(u32 pc, bs_t<breakpoint_type> type)
 	m_breakpoint_handler->AddBreakpoint(pc, type);
 
 	m_disasm->disasm(pc);
-	
+
 	QString breakpointItemText;
 
 	if (type == breakpoint_type::bp_execute)
