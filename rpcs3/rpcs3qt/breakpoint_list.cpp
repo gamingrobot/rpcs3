@@ -1,4 +1,4 @@
-﻿#include "breakpoint_list.h"
+#include "breakpoint_list.h"
 #include "breakpoint_handler.h"
 
 #include "Emu/CPU/CPUDisAsm.h"
@@ -66,8 +66,6 @@ void breakpoint_list::AddBreakpoint(u32 pc, bs_t<breakpoint_type> type)
 {
 	m_breakpoint_handler->AddBreakpoint(pc, type);
 
-	m_disasm->disasm(pc);
-
 	QString breakpointItemText;
 
 	if (type == breakpoint_type::bp_execute)
@@ -109,9 +107,7 @@ void breakpoint_list::HandleBreakpointRequest(u32 loc)
 	}
 	else
 	{
-		const auto cpu = this->cpu.lock();
-
-		if (cpu->id_type() == 1 && vm::check_addr(loc, 1, vm::page_allocated | vm::page_executable))
+		if (m_cpu->id_type() == 1 && vm::check_addr(loc, 1, vm::page_allocated | vm::page_executable))
 		{
 			AddBreakpoint(loc, breakpoint_type::bp_execute);
 		}
@@ -140,27 +136,19 @@ void breakpoint_list::OnBreakpointListRightClicked(const QPoint &pos)
 		m_context_menu->addSeparator();
 	}
 
-	m_context_menu->addAction(m_delete_action);
+	if (selectedItems().count() >= 1)
+	{
+		m_context_menu->addAction(m_delete_action);
+		m_context_menu->addSeparator();
+	}
+
+	QAction* m_addbp = m_context_menu->addAction(tr("&Add Breakpoint"));
+	connect(m_addbp, &QAction::triggered, this, &breakpoint_list::ShowAddBreakpointWindow);
+
 	m_context_menu->exec(viewport()->mapToGlobal(pos));
 	m_context_menu->deleteLater();
 	m_context_menu = nullptr;
-
-	QAction* m_addbp = new QAction(tr("Add Breakpoint"), this);
-	addAction(m_addbp);
-	connect(m_addbp, &QAction::triggered, this, &breakpoint_list::ShowAddBreakpointWindow);
-	menu->addAction(m_addbp);
-
-	QAction* selectedItem = menu->exec(viewport()->mapToGlobal(pos));
-	if (selectedItem)
-	{
-		if (selectedItem->text() == "Rename")
-		{
-			QListWidgetItem* currentItem = selectedItems().at(0);
-			currentItem->setFlags(currentItem->flags() | Qt::ItemIsEditable);
-			editItem(currentItem);
-		}
-	}
-
+	
 }
 
 void breakpoint_list::OnBreakpointListDelete()

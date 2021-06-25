@@ -1,15 +1,12 @@
-﻿#include "breakpoint_handler.h"
+#include "breakpoint_handler.h"
+
+#include "Utilities/bit_set.h"
 
 extern void ppu_breakpoint(u32 loc, bool is_adding);
 
 breakpoint_handler::breakpoint_handler() :m_breakpoints_list()
 {
-	break_on_bpm = false;
-}
-
-breakpoint_handler::~breakpoint_handler()
-{
-
+	break_on_bpm = true;
 }
 
 bool breakpoint_handler::IsBreakOnBPM()

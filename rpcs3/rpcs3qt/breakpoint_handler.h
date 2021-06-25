@@ -1,7 +1,9 @@
-﻿#pragma once
+#pragma once
+
+#include <map>
 
 #include "util/types.hpp"
-#include <set>
+#include "Utilities/bit_set.h"
 
 enum class breakpoint_type
 {
@@ -19,7 +21,7 @@ class breakpoint_handler
 {
 
 public:
-	breakpoint_handler() = default;
+	breakpoint_handler();
 	~breakpoint_handler() = default;
 
 	bool IsBreakOnBPM();
