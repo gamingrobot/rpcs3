@@ -39,14 +39,14 @@ void breakpoint_list::ClearBreakpoints()
 	{
 		auto* currentItem = takeItem(0);
 		const u32 loc = currentItem->data(Qt::UserRole).value<u32>();
-		m_breakpoint_handler->RemoveBreakpoint(loc, breakpoint_type::bp_execute);
+		m_breakpoint_handler->RemoveBreakpoint(loc);
 		delete currentItem;
 	}
 }
 
 void breakpoint_list::RemoveBreakpoint(u32 addr)
 {
-	m_breakpoint_handler->RemoveBreakpoint(addr, breakpoint_type::bp_execute);
+	m_breakpoint_handler->RemoveBreakpoint(addr);
 
 	for (int i = 0; i < count(); i++)
 	{

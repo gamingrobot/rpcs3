@@ -30,19 +30,21 @@ bool breakpoint_handler::AddBreakpoint(u32 loc, bs_t<breakpoint_type> type)
 	return true;
 }
 
-bool breakpoint_handler::RemoveBreakpoint(u32 loc, bs_t<breakpoint_type> type)
+bool breakpoint_handler::RemoveBreakpoint(u32 loc)
 {
 	if ( (m_breakpoints_list.find(loc) == m_breakpoints_list.end()) )// || ((m_breakpoints_list[loc] & type) != type))
 	{
 		return false;
 	}
-
-	m_breakpoints_list.erase(loc);
+	
+	auto type = m_breakpoints_list[loc];
 
 	if (type & breakpoint_type::bp_execute)
 	{
 		ppu_breakpoint(loc, false);
 	}
 
+	m_breakpoints_list.erase(loc);
+	
 	return true;
 }

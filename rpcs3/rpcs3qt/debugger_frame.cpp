@@ -1,4 +1,4 @@
-﻿#include "debugger_frame.h"
+#include "debugger_frame.h"
 #include "register_editor_dialog.h"
 #include "instruction_editor_dialog.h"
 #include "memory_viewer_panel.h"
@@ -917,7 +917,7 @@ void debugger_frame::DoUpdate()
 	// Check if we need to disable a step over bp
 	if (const auto cpu0 = get_cpu(); cpu0 && m_last_step_over_breakpoint != umax && cpu0->get_pc() == m_last_step_over_breakpoint)
 	{
-		m_breakpoint_handler->RemoveBreakpoint(m_last_step_over_breakpoint, breakpoint_type::bp_execute);
+		m_breakpoint_handler->RemoveBreakpoint(m_last_step_over_breakpoint);
 		m_last_step_over_breakpoint = -1;
 	}
 
@@ -1063,7 +1063,7 @@ void debugger_frame::DoStep(bool step_over)
 				// This can happen when the user steps over a branch that doesn't return to itself
 				if (m_last_step_over_breakpoint != umax)
 				{
-					m_breakpoint_handler->RemoveBreakpoint(next_instruction_pc, breakpoint_type::bp_execute);
+					m_breakpoint_handler->RemoveBreakpoint(next_instruction_pc);
 				}
 
 				m_last_step_over_breakpoint = next_instruction_pc;
