@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "PPUInterpreter.h"
 
 #include "Emu/Memory/vm_reservation.h"
@@ -3487,7 +3487,7 @@ bool ppu_interpreter::LWZX(ppu_thread& ppu, ppu_opcode_t op)
 
 	if (g_breakpoint_handler->HasBreakpoint(addr, breakpoint_type::bp_mread))
 	{
-		debugbp_log.success("BPMR: LWZX breakpoint reading 0x%x at 0x%x", static_cast<u32>(ppu.gpr[op.rd]), addr);
+		debugbp_log.success("BPMR: %s LWZX breakpoint reading 0x%x at 0x%x", *ppu.ppu_tname.load(), static_cast<u32>(ppu.gpr[op.rd]), addr);
 		ppubreak(ppu);
 	}
 
@@ -3651,7 +3651,7 @@ bool ppu_interpreter::LBZX(ppu_thread& ppu, ppu_opcode_t op)
 
 	if (g_breakpoint_handler->HasBreakpoint(addr, breakpoint_type::bp_mread))
 	{
-		debugbp_log.success("BPMR: LBZX breakpoint reading 0x%x at 0x%x", static_cast<u8>(ppu.gpr[op.rd]), addr);
+		debugbp_log.success("BPMR: %s LBZX breakpoint reading 0x%x at 0x%x", *ppu.ppu_tname.load(), static_cast<u8>(ppu.gpr[op.rd]), addr);
 		ppubreak(ppu);
 	}
 
@@ -3665,7 +3665,7 @@ bool ppu_interpreter::LVX(ppu_thread& ppu, ppu_opcode_t op)
 
 	if (g_breakpoint_handler->HasBreakpoint(addr, breakpoint_type::bp_mread))
 	{
-		debugbp_log.success("BPMR: LVX breakpoint reading vector at 0x%x", addr);
+		debugbp_log.success("BPMR: %s LVX breakpoint reading vector at 0x%x", *ppu.ppu_tname.load(), addr);
 		ppubreak(ppu);
 	}
 
@@ -3783,7 +3783,7 @@ bool ppu_interpreter::STDX(ppu_thread& ppu, ppu_opcode_t op)
 
 	if (g_breakpoint_handler->HasBreakpoint(addr, breakpoint_type::bp_mwrite))
 	{
-		debugbp_log.success("BPMW: STDX breakpoint writing 0x%x at 0x%x", ppu.gpr[op.rs], addr);
+		debugbp_log.success("BPMW: %s STDX breakpoint writing 0x%x at 0x%x", *ppu.ppu_tname.load(), ppu.gpr[op.rs], addr);
 		ppubreak(ppu);
 	}
 
@@ -3804,7 +3804,7 @@ bool ppu_interpreter::STWX(ppu_thread& ppu, ppu_opcode_t op)
 
 	if (g_breakpoint_handler->HasBreakpoint(addr, breakpoint_type::bp_mwrite))
 	{
-		debugbp_log.success("BPMW: STWX breakpoint writing 0x%x at 0x%x", static_cast<u32>(ppu.gpr[op.rs]), addr);
+		debugbp_log.success("BPMW: %s STWX breakpoint writing 0x%x at 0x%x", *ppu.ppu_tname.load(), static_cast<u32>(ppu.gpr[op.rs]), addr);
 		ppubreak(ppu);
 	}
 
@@ -3826,7 +3826,7 @@ bool ppu_interpreter::STDUX(ppu_thread& ppu, ppu_opcode_t op)
 
 	if (g_breakpoint_handler->HasBreakpoint(addr, breakpoint_type::bp_mwrite))
 	{
-		debugbp_log.success("BPMW: STDUX breakpoint writing 0x%x at 0x%x", ppu.gpr[op.rs], addr);
+		debugbp_log.success("BPMW: %s STDUX breakpoint writing 0x%x at 0x%x", *ppu.ppu_tname.load(), ppu.gpr[op.rs], addr);
 		ppubreak(ppu);
 	}
 
@@ -3841,7 +3841,7 @@ bool ppu_interpreter::STWUX(ppu_thread& ppu, ppu_opcode_t op)
 
 	if (g_breakpoint_handler->HasBreakpoint(addr, breakpoint_type::bp_mwrite))
 	{
-		debugbp_log.success("BPMW: STWUX breakpoint writing 0x%x at 0x%x", static_cast<u32>(ppu.gpr[op.rs]), addr);
+		debugbp_log.success("BPMW: %s STWUX breakpoint writing 0x%x at 0x%x", *ppu.ppu_tname.load(), static_cast<u32>(ppu.gpr[op.rs]), addr);
 		ppubreak(ppu);
 	}
 
@@ -3893,7 +3893,7 @@ bool ppu_interpreter::STBX(ppu_thread& ppu, ppu_opcode_t op)
 
 	if (g_breakpoint_handler->HasBreakpoint(addr, breakpoint_type::bp_mwrite))
 	{
-		debugbp_log.success("BPMW: STBX breakpoint writing 0x%x at 0x%x", static_cast<u8>(ppu.gpr[op.rs]), addr);
+		debugbp_log.success("BPMW: %s STBX breakpoint writing 0x%x at 0x%x", *ppu.ppu_tname.load(), static_cast<u8>(ppu.gpr[op.rs]), addr);
 		ppubreak(ppu);
 	}
 
@@ -3963,7 +3963,7 @@ bool ppu_interpreter::STBUX(ppu_thread& ppu, ppu_opcode_t op)
 
 	if (g_breakpoint_handler->HasBreakpoint(addr, breakpoint_type::bp_mwrite))
 	{
-		debugbp_log.success("BPMW: STBUX breakpoint writing 0x%x at 0x%x", static_cast<u8>(ppu.gpr[op.rs]), addr);
+		debugbp_log.success("BPMW: %s STBUX breakpoint writing 0x%x at 0x%x", *ppu.ppu_tname.load(), static_cast<u8>(ppu.gpr[op.rs]), addr);
 		ppubreak(ppu);
 	}
 
@@ -4199,7 +4199,7 @@ bool ppu_interpreter::STVXL(ppu_thread& ppu, ppu_opcode_t op)
 
 	if (g_breakpoint_handler->HasBreakpoint(addr, breakpoint_type::bp_mwrite))
 	{
-		debugbp_log.success("BPMW: STVXL breakpoint writing vector at 0x%x", addr);
+		debugbp_log.success("BPMW: %s STVXL breakpoint writing vector at 0x%x", *ppu.ppu_tname.load(), addr);
 		ppubreak(ppu);
 	}
 
@@ -4628,7 +4628,7 @@ bool ppu_interpreter::LWZ(ppu_thread& ppu, ppu_opcode_t op)
 
 	if (g_breakpoint_handler->HasBreakpoint(addr, breakpoint_type::bp_mread))
 	{
-		debugbp_log.success("BPMR: LWZ breakpoint reading 0x%x at 0x%x", static_cast<u32>(ppu.gpr[op.rd]), addr);
+		debugbp_log.success("BPMR: %s LWZ breakpoint reading 0x%x at 0x%x", *ppu.ppu_tname.load(), static_cast<u32>(ppu.gpr[op.rd]), addr);
 		ppubreak(ppu);
 	}
 
@@ -4650,7 +4650,7 @@ bool ppu_interpreter::LBZ(ppu_thread& ppu, ppu_opcode_t op)
 
 	if (g_breakpoint_handler->HasBreakpoint(addr, breakpoint_type::bp_mread))
 	{
-		debugbp_log.success("BPMR: LBZ breakpoint reading 0x%x at 0x%x", static_cast<u8>(ppu.gpr[op.rd]), addr);
+		debugbp_log.success("BPMR: %s LBZ breakpoint reading 0x%x at 0x%x", *ppu.ppu_tname.load(), static_cast<u8>(ppu.gpr[op.rd]), addr);
 		ppubreak(ppu);
 	}
 
@@ -4679,7 +4679,7 @@ bool ppu_interpreter::STW(ppu_thread& ppu, ppu_opcode_t op)
 
 	if (g_breakpoint_handler->HasBreakpoint(addr, breakpoint_type::bp_mwrite))
 	{
-		debugbp_log.success("BPMW: STW breakpoint writing 0x%x at 0x%x", static_cast<u32>(ppu.gpr[op.rs]), addr);
+		debugbp_log.success("BPMW: %s STW breakpoint writing 0x%x at 0x%x", *ppu.ppu_tname.load(), static_cast<u32>(ppu.gpr[op.rs]), addr);
 		ppubreak(ppu);
 	}
 
@@ -4693,7 +4693,7 @@ bool ppu_interpreter::STWU(ppu_thread& ppu, ppu_opcode_t op)
 
 	if (g_breakpoint_handler->HasBreakpoint(addr, breakpoint_type::bp_mwrite))
 	{
-		debugbp_log.success("BPMW: STWU breakpoint writing 0x%x at 0x%x", static_cast<u32>(ppu.gpr[op.rs]), addr);
+		debugbp_log.success("BPMW: %s STWU breakpoint writing 0x%x at 0x%x", *ppu.ppu_tname.load(), static_cast<u32>(ppu.gpr[op.rs]), addr);
 		ppubreak(ppu);
 	}
 
@@ -4708,7 +4708,7 @@ bool ppu_interpreter::STB(ppu_thread& ppu, ppu_opcode_t op)
 
 	if (g_breakpoint_handler->HasBreakpoint(addr, breakpoint_type::bp_mwrite))
 	{
-		debugbp_log.success("BPMW: STB breakpoint writing 0x%x at 0x%x", static_cast<u8>(ppu.gpr[op.rs]), addr);
+		debugbp_log.success("BPMW: %s STB breakpoint writing 0x%x at 0x%x", *ppu.ppu_tname.load(), static_cast<u8>(ppu.gpr[op.rs]), addr);
 		ppubreak(ppu);
 	}
 
@@ -4722,7 +4722,7 @@ bool ppu_interpreter::STBU(ppu_thread& ppu, ppu_opcode_t op)
 
 	if (g_breakpoint_handler->HasBreakpoint(addr, breakpoint_type::bp_mwrite))
 	{
-		debugbp_log.success("BPMW: STBU breakpoint writing 0x%x at 0x%x", static_cast<u8>(ppu.gpr[op.rs]), addr);
+		debugbp_log.success("BPMW: %s STBU breakpoint writing 0x%x at 0x%x", *ppu.ppu_tname.load(), static_cast<u8>(ppu.gpr[op.rs]), addr);
 		ppubreak(ppu);
 	}
 
@@ -4737,7 +4737,7 @@ bool ppu_interpreter::LHZ(ppu_thread& ppu, ppu_opcode_t op)
 
 	if (g_breakpoint_handler->HasBreakpoint(addr, breakpoint_type::bp_mread))
 	{
-		debugbp_log.success("BPMR: LHZ breakpoint reading 0x%x at 0x%x", static_cast<u16>(ppu.gpr[op.rd]), addr);
+		debugbp_log.success("BPMR: %s LHZ breakpoint reading 0x%x at 0x%x", *ppu.ppu_tname.load(), static_cast<u16>(ppu.gpr[op.rd]), addr);
 		ppubreak(ppu);
 	}
 
@@ -4891,7 +4891,7 @@ bool ppu_interpreter::STD(ppu_thread& ppu, ppu_opcode_t op)
 
 	if (g_breakpoint_handler->HasBreakpoint(addr, breakpoint_type::bp_mwrite))
 	{
-		debugbp_log.success("BPMW: STD breakpoint writing 0x%x at 0x%x", ppu.gpr[op.rs], addr);
+		debugbp_log.success("BPMW: %s STD breakpoint writing 0x%x at 0x%x", *ppu.ppu_tname.load(), ppu.gpr[op.rs], addr);
 		ppubreak(ppu);
 	}
 
@@ -4905,7 +4905,7 @@ bool ppu_interpreter::STDU(ppu_thread& ppu, ppu_opcode_t op)
 
 	if (g_breakpoint_handler->HasBreakpoint(addr, breakpoint_type::bp_mwrite))
 	{
-		debugbp_log.success("BPMW: STDU breakpoint writing 0x%x at 0x%x", ppu.gpr[op.rs], addr);
+		debugbp_log.success("BPMW: %s STDU breakpoint writing 0x%x at 0x%x", *ppu.ppu_tname.load(), ppu.gpr[op.rs], addr);
 		ppubreak(ppu);
 	}
 
